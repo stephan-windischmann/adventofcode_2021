@@ -23,11 +23,9 @@ public class Day1 {
     int window = data.get(0) + data.get(1) + data.get(2);
 
     for (int i = 3; i < data.size(); ++i) {
-      int newWindow = window + data.get(i) - data.get(i - 3);
-      if (newWindow > window) {
+      if (data.get(i) > data.get(i - 3)) {
         ++r;
       }
-      window = newWindow;
     }
 
     return r;
