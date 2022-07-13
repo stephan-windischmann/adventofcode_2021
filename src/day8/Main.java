@@ -19,8 +19,19 @@ public class Main {
         String leftString = line.split("\\|")[0].strip();
         String rightSting = line.split("\\|")[1].strip();
 
-        List<String> left = Arrays.asList(leftString.split("\\s+"));
-        List<String> right = Arrays.asList(rightSting.split("\\s+"));
+        List<String> left = new ArrayList<>();
+        List<String> right = new ArrayList<>();
+
+        for (String d : Arrays.asList(leftString.split("\\s+"))) {
+          char[] chars = d.toCharArray();
+          Arrays.sort(chars);
+          left.add(new String(chars));
+        }
+        for (String d : Arrays.asList(rightSting.split("\\s+"))) {
+          char[] chars = d.toCharArray();
+          Arrays.sort(chars);
+          right.add(new String(chars));
+        }
 
         data.add(new InputLine(left, right));
       }
@@ -38,7 +49,7 @@ public class Main {
     int r1 = Day8.solvePart1(data);
     System.out.printf("Day 8 part 1 solution: %d\n", r1);
 
-    /*int r2 = Day8.solvePart2(data);
-    System.out.printf("Day 8 part 2 solution: %d\n", r2);*/
+    int r2 = Day8.solvePart2(data);
+    System.out.printf("Day 8 part 2 solution: %d\n", r2);
   }
 }

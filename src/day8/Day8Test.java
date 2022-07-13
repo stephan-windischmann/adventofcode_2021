@@ -15,4 +15,13 @@ class Day8Test {
     int r = Day8.solvePart1(data);
     assertEquals(26, r);
   }
+
+  @Test
+  void solvePart2() {
+    String inputFile = "./input/day8/input_test1";
+    List<InputLine> data = Main.loadInput(inputFile);
+
+    int r = Day8.solvePart2(data);
+    assertEquals(61229, r);
+  }
 }
