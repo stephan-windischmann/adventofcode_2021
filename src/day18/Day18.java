@@ -4,15 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day18 {
-  static class Exploder {
-    public  boolean hasExploded = false;
-  }
-
-  static class Splitter {
-    public boolean hasSplit = false;
-  }
-
-
   private static boolean canExplode(SnailfishNumber number) {
     return canExplodeHelper(number, 0);
   }
@@ -38,16 +29,12 @@ public class Day18 {
   }
 
   private static void explodeNumber(SnailfishNumber number) {
-    Exploder exploder = new Exploder();
     parseNeighbors(number);
-    explodeNumberHelper(number, 0, exploder);
+    explodeNumberHelper(number, 0);
   }
 
-  private static void explodeNumberHelper(
-      SnailfishNumber number, int depth, Exploder exploder) {
-    if (exploder.hasExploded) {
-      return;
-    }
+  private static boolean explodeNumberHelper(
+      SnailfishNumber number, int depth) {
     if (depth == 4 && number.left != null && number.right != null) {
       if (number.left.leftVal != null) {
         number.left.leftVal.setValue(number.left.leftVal.getValue() + number.left.getValue());
@@ -59,36 +46,39 @@ public class Day18 {
       number.setValue(0);
       number.left = null;
       number.right = null;
-      exploder.hasExploded = true;
+      return true;
     }
     if (number.left != null && number.right != null) {
-      explodeNumberHelper(number.left, depth + 1, exploder);
-      explodeNumberHelper(number.right, depth + 1, exploder);
+      if (explodeNumberHelper(number.left, depth + 1)) {
+        return true;
+      }
+      if (explodeNumberHelper(number.right, depth + 1)) {
+        return true;
+      }
     }
+    return false;
   }
 
-  private static void splitNumber(SnailfishNumber split) {
-    Splitter splitter = new Splitter();
-    splitNumberHelper(split, splitter);
-  }
-
-  private static void splitNumberHelper(SnailfishNumber split, Splitter splitter) {
-    if (splitter.hasSplit) {
-      return;
-    }
+  private static boolean splitNumber(SnailfishNumber split) {
     if (split.left != null && split.right != null) {
-      splitNumberHelper(split.left, splitter);
-      splitNumberHelper(split.right, splitter);
+      if (splitNumber(split.left)) {
+        return true;
+      }
+      if (splitNumber(split.right)) {
+        return true;
+      }
     } else {
       if (split.getValue() > 9) {
         int l = (int)Math.floor((double)split.getValue() / 2.0);
         int r = (int)Math.ceil((double)split.getValue() / 2.0);
-        splitter.hasSplit = true;
         split.left = new SnailfishNumber(l);
         split.right = new SnailfishNumber(r);
+        return true;
       }
     }
+    return false;
   }
+
   private static SnailfishNumber reduceSnailfishNumber(SnailfishNumber number) {
     if (canExplode(number)) {
       explodeNumber(number);
