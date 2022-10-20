@@ -7,27 +7,25 @@ import java.util.List;
 
 public class Main {
   public static char[][] loadInput(String filename) {
-    char[][] r = new char[0][0];
-
     Path p = Path.of(filename);
 
     try {
       List<String> data = Files.readAllLines(p);
 
-      r = new char[data.size()][data.get(0).length()];
+      char[][] r = new char[data.size()][data.get(0).length()];
 
       for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data.get(i).length(); ++j) {
           r[i][j] = data.get(i).charAt(j);
         }
       }
-
+      return r;
     } catch (IOException e) {
       System.out.println("Exception: " + e);
       System.exit(-1);
     }
 
-    return r;
+    return new char[0][0];
   }
 
   public static void main(String[] args) {
